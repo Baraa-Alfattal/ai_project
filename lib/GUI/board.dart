@@ -36,7 +36,6 @@ class Board extends StatefulWidget {
 //                 |↓|6|↑|
 //                 |→|→|↑|
 //
-//
 
 class BoardState extends State<Board> {
   double _nearest(BoxConstraints constraints) {
@@ -233,6 +232,21 @@ class BoardState extends State<Board> {
     ];
   }
 
+  List<Widget> _paths(BoxConstraints constraints) {
+    final cellSize = _nearest(constraints) / Game.boardSize;
+    final main = _mainRoute(cellSize);
+    final sup1 = _supRoute1(cellSize);
+    final sup2 = _supRoute2(cellSize);
+    final rest = _unAccessibles(cellSize);
+
+    return [
+      ...main,
+      ...sup1,
+      ...sup2,
+      ...rest,
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -242,14 +256,12 @@ class BoardState extends State<Board> {
       child: Center(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final cellSize = _nearest(constraints) / Game.boardSize;
-            final main = _mainRoute(cellSize);
-            final sup1 = _supRoute1(cellSize);
-            final sup2 = _supRoute2(cellSize);
-            final rest = _unAccessibles(cellSize);
-
-            return Stack(
-              children: [...main, ...sup1, ...sup2, ...rest],
+            return SizedBox(
+              width: _nearest(constraints),
+              height: _nearest(constraints),
+              child: Stack(
+                children: _paths(constraints),
+              ),
             );
           },
         ),
