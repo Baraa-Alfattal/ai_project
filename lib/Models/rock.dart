@@ -39,12 +39,12 @@ class Rock {
     status = Status.dead;
   }
 
-  // not correct
   bool canKillRock(Rock obj) {
     if (obj == this) return false;
     if (owner == obj.owner) return false;
 
     var allowed = [Status.mainPath, Status.readyToEnter];
+    if (allowed.every((state) => status != state)) return false;
     if (allowed.every((state) => obj.status != state)) return false;
 
     if (status == Status.mainPath || status == Status.readyToEnter) {
@@ -76,10 +76,9 @@ class Rock {
     this.index = index;
   }
 
-  // not correct
   List<Rock> getNextRocks(int steps) {
-    var allowed = [Status.mainPath, Status.readyToEnter, Status.protected];
-    if (status != Status.mainPath) return [];
+    var allowed = [Status.mainPath, Status.protected];
+    if (allowed.every((state) => status != state)) return [];
 
     var nextRocks = <Rock>[];
 
@@ -128,12 +127,11 @@ class Rock {
     return true;
   }
 
-  // not correct for killing
   void move(int steps) {
     if (!canMove(steps)) return;
 
     if (owner == owners[0]) {
-      if (status == Status.mainPath) {
+      if (status == Status.mainPath || status == Status.protected) {
         var stepsToEnd = Game.mainPathEnd - index;
 
         if (steps == stepsToEnd + 1) {
@@ -141,6 +139,7 @@ class Rock {
           status = Status.readyToEnter;
         } else if (steps <= stepsToEnd) {
           index += steps;
+          if (Game.protects.contains(index)) status = Status.protected;
         } else {
           status = Status.subPathEnd;
           index = 6;
@@ -148,8 +147,7 @@ class Rock {
           moveInSupPath(newStep);
         }
 
-        var rocksToKill = getNextRocks(steps);
-        rocksToKill.forEach((rock) {
+        rocks.forEach((rock) {
           if (canKillRock(rock)) {
             rock.kill();
           }
@@ -177,6 +175,7 @@ class Rock {
         } else {
           index += steps;
         }
+        if (Game.protects.contains(index)) status = Status.protected;
       }
       // rock is on the left side of the board
       else {
@@ -185,6 +184,7 @@ class Rock {
           status = Status.readyToEnter;
         } else if (steps <= stepsToEnd) {
           index += steps;
+          if (Game.protects.contains(index)) status = Status.protected;
         } else {
           status = Status.subPathEnd;
           index = 6;
@@ -193,8 +193,7 @@ class Rock {
         }
       }
 
-      var rocksToKill = getNextRocks(steps);
-      rocksToKill.forEach((rock) {
+      rocks.forEach((rock) {
         if (canKillRock(rock)) {
           rock.kill();
         }

@@ -25,6 +25,18 @@ class Game {
   static const area4Start = 43;
   static const area4Peak = 51;
   static const area4End = 59;
+
+  static const area1Protects = [2, 66];
+  static const area2Protects = [19, 15];
+  static const area3Protects = [36, 32];
+  static const area4Protects = [53, 49];
+
+  static const protects = [
+    ...area1Protects,
+    ...area2Protects,
+    ...area3Protects,
+    ...area4Protects,
+  ];
 }
 
 class SeaShells {
