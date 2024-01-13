@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:ai_project/constants.dart';
+
 class Seashell {
   late bool seashell1;
   late bool seashell2;
@@ -90,7 +92,7 @@ class Seashell {
   int throwRandomSeashells() {
     // إنشاء قائمة بستة أصداف بقيم عشوائية
     double randomNumber = Random().nextDouble();
-    if (randomNumber <= 0.003992015968063872) {
+    if (randomNumber <= SeaShells.role6) {
       this.seashell1 = true;
       this.seashell2 = true;
       this.seashell3 = true;
@@ -98,7 +100,7 @@ class Seashell {
       this.seashell5 = true;
       this.seashell6 = true;
       return 6;
-    } else if (randomNumber <= 0.031936127744510975) {
+    } else if (randomNumber <= SeaShells.role0) {
       this.seashell1 = false;
       this.seashell2 = false;
       this.seashell3 = false;
@@ -106,7 +108,7 @@ class Seashell {
       this.seashell5 = false;
       this.seashell6 = false;
       return 0;
-    } else if (randomNumber <= 0.03992015968063872) {
+    } else if (randomNumber <= SeaShells.role5) {
       this.seashell1 = true;
       this.seashell2 = true;
       this.seashell3 = true;
@@ -114,7 +116,7 @@ class Seashell {
       this.seashell5 = true;
       this.seashell6 = false;
       return 5;
-    } else if (randomNumber <= 0.12574850299401197) {
+    } else if (randomNumber <= SeaShells.role4) {
       this.seashell1 = true;
       this.seashell2 = true;
       this.seashell3 = true;
@@ -122,7 +124,7 @@ class Seashell {
       this.seashell5 = false;
       this.seashell6 = false;
       return 4;
-    } else if (randomNumber <= 0.17764471057884232) {
+    } else if (randomNumber <= SeaShells.role1) {
       this.seashell1 = true;
       this.seashell2 = false;
       this.seashell3 = false;
@@ -130,7 +132,7 @@ class Seashell {
       this.seashell5 = false;
       this.seashell6 = false;
       return 1;
-    } else if (randomNumber <= 0.3033932135728543) {
+    } else if (randomNumber <= SeaShells.role3) {
       this.seashell1 = true;
       this.seashell2 = true;
       this.seashell3 = true;

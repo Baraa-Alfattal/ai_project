@@ -26,3 +26,13 @@ class Game {
   static const area4Peak = 51;
   static const area4End = 59;
 }
+
+class SeaShells {
+  static const role6 = 0.003992015968063872;
+  static const role0 = 0.031936127744510975;
+  static const role5 = 0.03992015968063872;
+  static const role4 = 0.12574850299401197;
+  static const role1 = 0.17764471057884232;
+  static const role3 = 0.3033932135728543;
+  static const role2 = 0.31736526946107785;
+}
