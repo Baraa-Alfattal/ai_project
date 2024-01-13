@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:ai_project/Models/Seashell.dart';
+
 import '../Controller/Actions.dart';
 import '../Models/GameModel.dart';
 import '../Models/Positions.dart';
@@ -24,7 +26,10 @@ class UserPlay {
       }
 
       // رمي الاحجار
-      // Throwingstones();
+      Seashell seashell = Seashell();
+      var result = seashell.throwRandomSeashells();
+      
+      
 
       // Print Moves Able Positions
       List<Positions> positions = Actions.checkMoves(gameModel);

@@ -16,7 +16,6 @@ class GameModel {
 
   GameModel? gameModel;
 
-  List<Seashell>? seashells;
 
   Positions? lastPosition;
 
@@ -32,7 +31,6 @@ class GameModel {
     this.rock7 = rock7;
     this.rock8 = rock8;
     this.gameModel = gameModel;
-    this.seashells = seashells;
   }
 
   // Getter Methods

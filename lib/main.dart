@@ -1,6 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
+import 'Models/Seashell.dart';
+
 void main() {
+  Seashell seashell = Seashell();
+  var result = seashell.throwRandomSeashells();
+  print(result);
+
   runApp(const MyApp());
 }
 
