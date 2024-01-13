@@ -1,27 +1,26 @@
-import 'Pair.dart';
+import 'rock.dart';
 import 'Seashell.dart';
 import 'Positions.dart';
 
 class GameModel {
   // row boundary
   // player cell position
-  Pair? rock1;
-  Pair? rock2;
-  Pair? rock3;
-  Pair? rock4;
-  Pair? rock5;
-  Pair? rock6;
-  Pair? rock7;
-  Pair? rock8;
+  Rock? rock1;
+  Rock? rock2;
+  Rock? rock3;
+  Rock? rock4;
+  Rock? rock5;
+  Rock? rock6;
+  Rock? rock7;
+  Rock? rock8;
 
   GameModel? gameModel;
-
 
   Positions? lastPosition;
 
   // Constructor
-  GameModel(Pair? rock1, Pair? rock2, Pair? rock3, Pair? rock4, Pair? rock5,
-      Pair? rock6, Pair? rock7, Pair? rock8, GameModel? gameModel) {
+  GameModel(Rock? rock1, Rock? rock2, Rock? rock3, Rock? rock4, Rock? rock5,
+      Rock? rock6, Rock? rock7, Rock? rock8, GameModel? gameModel) {
     this.rock1 = rock1;
     this.rock2 = rock2;
     this.rock3 = rock3;

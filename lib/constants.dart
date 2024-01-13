@@ -36,3 +36,15 @@ class SeaShells {
   static const role3 = 0.3033932135728543;
   static const role2 = 0.31736526946107785;
 }
+
+class Status {
+  static const dead = -1;
+  static const win = 1;
+  static const subPathStart = -5;
+  static const subPathEnd = 5;
+  static const mainPath = 10;
+  static const protected = 100;
+  static const readyToEnter = 64;
+}
+
+const owners = [1, 2];

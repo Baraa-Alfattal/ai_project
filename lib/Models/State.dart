@@ -1,21 +1,17 @@
+import 'package:ai_project/Models/Pair.dart';
+
 import 'GameModel.dart';
 
 class State implements Comparable<State> {
   State? parent;
+  List<Pair<State, double>> children = [];
   late GameModel value;
   int cost = 1;
   int h = 0;
 
-  State(State? parent, GameModel value) {
-    this.parent = parent;
-    this.value = value;
-  }
+  State(this.parent, this.value);
 
-  State.withCost(State? parent, GameModel value, int cost) {
-    this.parent = parent;
-    this.value = value;
-    this.cost = cost;
-  }
+  State.withCost(this.parent, this.value, this.cost);
 
   bool hasPrevious() {
     return parent != null;
@@ -57,4 +53,6 @@ class State implements Comparable<State> {
   void setH(int h) {
     this.h = h;
   }
+
+  List<Pair<State, double>> nextState() {}
 }
