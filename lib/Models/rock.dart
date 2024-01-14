@@ -1,9 +1,7 @@
+import 'package:ai_project/Models/GameModel.dart';
 import 'package:ai_project/constants.dart';
-import 'package:flutter/material.dart';
 
 class Rock {
-  static List<Rock> rocks = [];
-
   // Fields
   int index = -1;
   int status = Status.dead;
@@ -12,21 +10,15 @@ class Rock {
   // Rockr();
 
   // Default constructor
-  Rock(int i, int j, int k) {
-    rocks.add(this);
-  }
+  Rock(int i, int j, int k);
 
-  Rock.withValues(this.index, this.status, this.owner) {
-    rocks.add(this);
-  }
+  Rock.withValues(this.index, this.status, this.owner);
 
   // Copy constructor
   Rock.copy(Rock rock) {
     index = rock.index;
     status = rock.status;
     owner = rock.owner;
-
-    rocks.add(this);
   }
 
   // Deep Check
@@ -68,6 +60,11 @@ class Rock {
   //   return p;
   // }
 
+  void revive() {
+    status = Status.subPathStart;
+    index = 0;
+  }
+
   int getIndex() {
     return index;
   }
@@ -76,13 +73,13 @@ class Rock {
     this.index = index;
   }
 
-  List<Rock> getNextRocks(int steps) {
+  List<Rock> getNextRocks(int steps, GameModel model) {
     var allowed = [Status.mainPath, Status.protected];
     if (allowed.every((state) => status != state)) return [];
 
     var nextRocks = <Rock>[];
 
-    for (var rock in rocks) {
+    for (var rock in model.getRocks()) {
       if (rock == this) continue;
       if (allowed.every((state) => rock.status != state)) continue;
       if (rock.index == index + steps) continue;
@@ -92,7 +89,7 @@ class Rock {
     return nextRocks;
   }
 
-  bool canMove(int steps) {
+  bool canMove(int steps, GameModel model) {
     if (steps <= 0) return false;
 
     var immovable = status == Status.dead || status == Status.win;
@@ -116,7 +113,7 @@ class Rock {
       if (steps - index > 1) return false;
     }
 
-    var nextCellRocks = getNextRocks(steps);
+    var nextCellRocks = getNextRocks(steps, model);
 
     if (nextCellRocks.any(
       (rock) => rock.owner != owner && rock.status == Status.protected,
@@ -127,8 +124,8 @@ class Rock {
     return true;
   }
 
-  void move(int steps) {
-    if (!canMove(steps)) return;
+  void move(int steps, GameModel model) {
+    if (!canMove(steps, model)) return;
 
     if (owner == owners[0]) {
       if (status == Status.mainPath || status == Status.protected) {
@@ -144,10 +141,10 @@ class Rock {
           status = Status.subPathEnd;
           index = 6;
           var newStep = steps - stepsToEnd - 2;
-          moveInSupPath(newStep);
+          moveInSupPath(newStep, model);
         }
 
-        rocks.forEach((rock) {
+        model.getRocks().forEach((rock) {
           if (canKillRock(rock)) {
             rock.kill();
           }
@@ -156,9 +153,9 @@ class Rock {
         status = Status.subPathEnd;
         index = 6;
         var newStep = steps - 1;
-        moveInSupPath(newStep);
+        moveInSupPath(newStep, model);
       } else {
-        moveInSupPath(steps);
+        moveInSupPath(steps, model);
       }
 
       return;
@@ -189,11 +186,11 @@ class Rock {
           status = Status.subPathEnd;
           index = 6;
           var newStep = steps - stepsToEnd - 2;
-          moveInSupPath(newStep);
+          moveInSupPath(newStep, model);
         }
       }
 
-      rocks.forEach((rock) {
+      model.getRocks().forEach((rock) {
         if (canKillRock(rock)) {
           rock.kill();
         }
@@ -202,20 +199,20 @@ class Rock {
       status = Status.subPathEnd;
       index = 6;
       var newStep = steps - 1;
-      moveInSupPath(newStep);
+      moveInSupPath(newStep, model);
     } else {
-      moveInSupPath(steps);
+      moveInSupPath(steps, model);
     }
   }
 
-  void moveInSupPath(int steps) {
+  void moveInSupPath(int steps, GameModel model) {
     if (status == Status.subPathStart) {
       if (owner == owners[0]) {
         var stepsToEnd = 6 - index;
         if (steps > stepsToEnd) {
           status = Status.mainPath;
           index = Game.mainPathStart;
-          move(steps - stepsToEnd - 1);
+          move(steps - stepsToEnd - 1, model);
         } else {
           index += steps;
         }
@@ -224,7 +221,7 @@ class Rock {
         if (steps > stepsToEnd) {
           status = Status.mainPath;
           index = Game.area3Peak;
-          move(steps - stepsToEnd - 1);
+          move(steps - stepsToEnd - 1, model);
         } else {
           index += steps;
         }
@@ -253,5 +250,9 @@ class Rock {
 
   int getOwner() {
     return owner;
+  }
+
+  Rock clone() {
+    return Rock.copy(this);
   }
 }

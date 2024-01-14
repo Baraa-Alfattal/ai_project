@@ -1,5 +1,3 @@
-import 'package:ai_project/Models/Seashell.dart';
-
 import 'Models/GameModel.dart';
 import 'Models/rock.dart';
 
@@ -15,7 +13,6 @@ class GameLevel {
     Rock rock7 = Rock(0, -1, 22);
     Rock rock8 = Rock(0, -1, 22);
 
-    return GameModel(
-        rock1, rock2, rock3, rock4, rock5, rock6, rock7, rock8, barses());
+    return GameModel(rock1, rock2, rock3, rock4, rock5, rock6, rock7, rock8);
   }
 }

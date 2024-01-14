@@ -1,5 +1,6 @@
 import 'package:ai_project/Models/Pair.dart';
-
+import 'package:ai_project/Models/rock.dart';
+import 'package:ai_project/constants.dart';
 import 'GameModel.dart';
 
 class State implements Comparable<State> {
@@ -9,7 +10,9 @@ class State implements Comparable<State> {
   int cost = 1;
   int h = 0;
 
-  State(this.parent, this.value);
+  State(this.value);
+
+  State.withParent(this.parent, this.value);
 
   State.withCost(this.parent, this.value, this.cost);
 
@@ -54,5 +57,65 @@ class State implements Comparable<State> {
     this.h = h;
   }
 
-  List<Pair<State, double>> nextState() {}
+  List<Pair<State, double>> nextState([int depth = 1]) {
+    if (depth > SeaShells.maxRoleCount) return [];
+
+    var states = <Pair<State, double>>[];
+
+    var currModel = value;
+    for (var role in SeaShells.roles) {
+      var rocks = currModel.getRocks();
+      var i = 0;
+      for (var rock in rocks) {
+        bool revived = false;
+        if (rock.owner != GameModel.currentPlayer) continue;
+        if (SeaShells.haveExtra(role.owner) && rock.status == Status.dead) {
+          rock.revive();
+          revived = true;
+        }
+        if (!rock.canMove(role.value, currModel)) continue;
+
+        if (!revived && SeaShells.haveExtra(role.owner)) {
+          for (var rock in rocks) {
+            if (rock.owner != GameModel.currentPlayer) continue;
+            if (!rock.canMove(role.value + 1, currModel)) continue;
+
+            var newModel = currModel.clone();
+            var newRocks = newModel.getRocks();
+            var rock2Move = newRocks[i];
+            rock2Move.move(role.value, newModel);
+
+            var newState = State(newModel);
+
+            if (SeaShells.roleAgain(role.owner)) {
+              newState.nextState(depth + 1);
+            }
+
+            var child = Pair(newState, SeaShells.rolePossibility(role.owner));
+            children.add(child);
+            states.add(child);
+          }
+        } else {
+          var newModel = currModel.clone();
+          var newRocks = newModel.getRocks();
+          var rock2Move = newRocks[i];
+          rock2Move.move(role.value, newModel);
+
+          var newState = State(newModel);
+
+          if (SeaShells.roleAgain(role.owner)) {
+            newState.nextState(depth + 1);
+          }
+
+          var child = Pair(newState, SeaShells.rolePossibility(role.owner));
+          children.add(child);
+          states.add(child);
+        }
+
+        i++;
+      }
+    }
+
+    return states;
+  }
 }

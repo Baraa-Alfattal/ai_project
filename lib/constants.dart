@@ -1,3 +1,4 @@
+import 'package:ai_project/Models/Pair.dart';
 import 'package:flutter/material.dart';
 
 class GUI {
@@ -47,6 +48,47 @@ class SeaShells {
   static const role1 = 0.17764471057884232;
   static const role3 = 0.3033932135728543;
   static const role2 = 0.31736526946107785;
+
+  static final roles = [
+    Pair(2, 2),
+    Pair(3, 3),
+    Pair(1, 10),
+    Pair(4, 4),
+    Pair(5, 25),
+    Pair(0, 6),
+    Pair(6, 12),
+  ];
+
+  static double rolePossibility(int role) {
+    switch (role) {
+      case 0:
+        return role0;
+      case 1:
+        return role1;
+      case 2:
+        return role2;
+      case 3:
+        return role3;
+      case 4:
+        return role4;
+      case 5:
+        return role5;
+      case 6:
+        return role6;
+      default:
+        return 0;
+    }
+  }
+
+  static bool haveExtra(int role) {
+    return role == 1 || role == 5;
+  }
+
+  static bool roleAgain(int role) {
+    return [0, 1, 5, 6].contains(role);
+  }
+
+  static const maxRoleCount = 10;
 }
 
 class Status {
